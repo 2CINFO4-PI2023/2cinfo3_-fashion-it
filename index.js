@@ -10,7 +10,7 @@ async function run() {
   try {
     await client.connect();
 
-    const database = client.db('sample_mflix');
+    const database = client.db('base');
     const movies = database.collection('movies');
 
     // Query for a movie that has the title 'Back to the Future'
