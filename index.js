@@ -1,26 +1,33 @@
-const { MongoClient } = require("mongodb");
+import express from 'express';
+import mongoose from 'mongoose';
 
-// Replace the uri string with your connection string.
-const uri =
-  "mongodb+srv://<user>:<password>@<cluster-url>?retryWrites=true&writeConcern=majority";
+//import typeRoutes 
+import TypeRoutes from './routes/type.js';
 
-const client = new MongoClient(uri);
+const app = express();
+const hostname = '127.0.0.1';
+const port = process.env.PORT || 9090;
+const databaseName = '2cinfo3-fashion-it';
 
-async function run() {
-  try {
-    await client.connect();
+mongoose.set('debug', true);
+mongoose.Promise = global.Promise;
 
-    const database = client.db('sample_mflix');
-    const movies = database.collection('movies');
+// Se connecter à MongoDB
+mongoose
+  .connect(`mongodb://127.0.0.1:27017/${databaseName}`)
+  .then(() => {
+    // Une fois connecté, afficher un message de réussite sur la console
+    console.log(`Connected to ${databaseName}`);
+  })
+  .catch(err => {
+    // Si quelque chose ne va pas, afficher l'erreur sur la console
+    console.log(err);
+  });
 
-    // Query for a movie that has the title 'Back to the Future'
-    const query = { title: 'Back to the Future' };
-    const movie = await movies.findOne(query);
+app.use(express.json());
 
-    console.log(movie);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+app.use('/type',TypeRoutes);
+
+app.listen(port, hostname, ()=>{
+    console.log(`Server running at http://${hostname}:${port}`);
+})
