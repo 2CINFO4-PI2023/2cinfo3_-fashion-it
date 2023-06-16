@@ -9,7 +9,7 @@ router
     .post(addType)
 
 router
-    .route('/:titre')
+    .route('/:title')
     .get(getType)
     .delete(deleteType)
     .patch(patchType)

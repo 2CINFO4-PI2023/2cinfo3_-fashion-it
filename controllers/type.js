@@ -16,9 +16,13 @@ export function addType(req, res) {
 // Rechercher by
 export function getType(req, res) {
     Type
-    .findOne( {"type":req.params.Type} )
+    .findOne({ "title": req.params.title })
     .then(doc => {
-        res.status(200).json(doc);
+        if (doc) {
+            res.status(200).json(doc);
+        } else {
+            res.status(404).json({ message: 'Aucun document trouvé avec ce titre.' });
+        }
     })
     .catch(err => {
         res.status(500).json({ error: err });
@@ -30,7 +34,7 @@ export function getType(req, res) {
  */
 export function deleteType(req, res) {
     Type
-    .findOneAndRemove({ "type": req.params.Type })
+    .findOneAndRemove({ "title": req.params.title })
     .then(doc => {
         res.status(200).json(doc);
     })
@@ -44,7 +48,7 @@ export function deleteType(req, res) {
  */
 export function patchType(req, res) {
     Type
-      .findOneAndUpdate({ "type": req.params.title }, req.body, { new: true })
+      .findOneAndUpdate({ "title": req.params.title }, req.body, { new: true })
       .then(doc => {
         res.status(200).json(doc);
       })

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 //import typeRoutes 
 import TypeRoutes from './routes/type.js';
+import reclamation from './routes/reclamation.js';
 
 const app = express();
 const hostname = '127.0.0.1';
@@ -27,6 +28,7 @@ mongoose
 app.use(express.json());
 
 app.use('/type',TypeRoutes);
+app.use('/Reclamation',reclamation)
 
 app.listen(port, hostname, ()=>{
     console.log(`Server running at http://${hostname}:${port}`);
