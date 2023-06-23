@@ -7,5 +7,7 @@ router.get('/:id', publicationController.getPublicationById);
 router.post('/', publicationController.createPublication);
 router.put('/:id', publicationController.updatePublication);
 router.delete('/:id', publicationController.deletePublication);
+router.post('/:id/comments', publicationController.createComment);
+router.post('/:id/ratings', publicationController.addRating);
 
 module.exports = router;
