@@ -13,7 +13,7 @@ export function addReclamation(req, res) {
     });
 }
 
-// Rechercher by
+// Rechercher by Mail
 export function getReclamation(req, res) {
     Reclamation
     .findOne({ "mail": req.params.mail })
@@ -28,13 +28,26 @@ export function getReclamation(req, res) {
         res.status(500).json({ error: err });
     });
 }
+// Rechercher 
+export function getAll(req, res) {
+    Reclamation
+    .find({})
+    .then(docs => {
+        res.status(200).json(docs);
+    })
+    .catch(err => {
+        res.status(500).json({ error: err });
+    });
+}
+
+
 
 /**
- * Supprimer
+ * Supprimer by id
  */
 export function deleteReclamation(req, res) {
     Reclamation
-    .findOneAndRemove({ "mail": req.params.mail })
+    .findByIdAndRemove(req.params.id)
     .then(doc => {
         res.status(200).json(doc);
     })
@@ -44,11 +57,11 @@ export function deleteReclamation(req, res) {
 }
 
 /**
- * Mettre à jour 
+ * Mettre à jour by id
  */
 export function patchReclamation(req, res) {
     Reclamation
-    .findOneAndUpdate({ "mail": req.params.mail }, req.body, { new: true })
+    .findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(doc => {
       res.status(200).json(doc);
     })

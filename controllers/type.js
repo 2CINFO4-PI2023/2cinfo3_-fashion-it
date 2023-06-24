@@ -1,3 +1,4 @@
+import reclamation from "../models/reclamation.js";
 import Type from "../models/type.js"; 
 
 // Ajouter
@@ -13,10 +14,10 @@ export function addType(req, res) {
     });
 }
 
-// Rechercher by
+// Rechercher type par ID 
 export function getType(req, res) {
     Type
-    .findOne({ "title": req.params.title })
+    .findById(req.params.id)
     .then(doc => {
         if (doc) {
             res.status(200).json(doc);
@@ -29,26 +30,25 @@ export function getType(req, res) {
     });
 }
 
-/**
- * Supprimer
- */
-export function deleteType(req, res) {
+// Rechercher 
+export function getAll(req, res) {
     Type
-    .findOneAndRemove({ "title": req.params.title })
-    .then(doc => {
-        res.status(200).json(doc);
+    .find({})
+    .then(docs => {
+        res.status(200).json(docs);
     })
     .catch(err => {
         res.status(500).json({ error: err });
     });
 }
 
+
 /**
- * Mettre à jour 
+ * Mettre à jour by ID
  */
 export function patchType(req, res) {
     Type
-      .findOneAndUpdate({ "title": req.params.title }, req.body, { new: true })
+      .findByIdAndUpdate(req.params.id, req.body, { new: true })
       .then(doc => {
         res.status(200).json(doc);
       })
@@ -56,3 +56,25 @@ export function patchType(req, res) {
         res.status(500).json({ error: err });
       });
 }
+
+export const deleteTypeAndUpdateReclamations = async (req, res) => {
+  let { id } = req.params;
+  let typeR=id
+
+  try {
+    // Mettre à jour les réclamations avec un autre type par défaut
+    await reclamation.updateMany(
+      { typeR },
+      { $set: { typeR: "649436e21fecc57162ff22e8" } }
+      );
+      
+      // Supprimer le type
+      await Type.findByIdAndRemove(req.params.id);
+      res.status(200).json({ message: 'Type deleted successfully' });
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ error: error.message });
+  }
+};
+
+  

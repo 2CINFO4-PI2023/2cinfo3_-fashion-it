@@ -1,20 +1,18 @@
 import express from 'express';
 
-import { addType,deleteType,getType,patchType } from '../controllers/type.js';
+import { addType,getType,patchType,getAll,deleteTypeAndUpdateReclamations } from '../controllers/type.js';
   
 const router = express.Router();
 
 router
     .route('/')
     .post(addType)
-
+    .get(getAll)
+    
 router
-    .route('/:title')
+    .route('/:id')
     .get(getType)
-    .delete(deleteType)
+    .delete(deleteTypeAndUpdateReclamations)
     .patch(patchType)
-router
-    .route('/:typeId')
-    .delete(deleteType)
 
 export default router;
