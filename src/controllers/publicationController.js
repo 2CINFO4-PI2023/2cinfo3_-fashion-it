@@ -17,7 +17,8 @@ exports.getAllPublications = async (req, res) => {
     }));
     res.json(formattedPublications);
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error); // Log the error to the console for debugging
+    res.status(500).json({ error: error.message || 'Internal server error' });
   }
 };
 

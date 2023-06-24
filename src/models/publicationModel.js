@@ -10,9 +10,9 @@ const publicationSchema = new mongoose.Schema({
     required: true
   },
   type: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.String,
     ref: 'TypePublication',
-    required: true 
+    required : true 
    
   },
   userId: {
