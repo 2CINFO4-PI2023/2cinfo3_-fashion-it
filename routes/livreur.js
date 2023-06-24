@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { addOnce , getAll , deleteOnce , patchOnce
+import { addOnce , getAll , deleteOnce , patchOnce , getCommandesByLivreur
 } from '../controllers/livreur.js';
 
 const router = express.Router();
@@ -11,10 +11,13 @@ router
   .get(getAll);
 
   router
-  .route('/:Nom')
+  .route('/:_id')
   
   .delete(deleteOnce)
-  .patch(patchOnce);
+  .patch(patchOnce)
+  .get(getCommandesByLivreur);
+  
+  
 
   
 
