@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 import livreurRoutes from './routes/livreur.js';
 import commandeRoutes from './routes/commande.js';
-
+import notelivreurRoutes from './routes/notelivreur.js';
 
 const app = express();
 const port = process.env.PORT || 9090;
@@ -33,7 +33,7 @@ app.use(express.json());
 
 app.use('/livreurs', livreurRoutes);
 app.use('/commande', commandeRoutes);
-
+app.use('/notelivreur', notelivreurRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
