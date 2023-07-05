@@ -1,4 +1,6 @@
+import reclamation from "../models/reclamation.js";
 import Reclamation from "../models/reclamation.js";
+import type from "../models/type.js";
 
 // Ajouter
 export function addReclamation(req, res) {
@@ -69,3 +71,33 @@ export function patchReclamation(req, res) {
       res.status(500).json({ error: err });
     });
 }
+
+
+// Fonction pour obtenir les statistiques sur les types de réclamation
+export async function getReclamationStats() {
+    try {
+      // Compter le nombre de réclamations par type
+      const typeCounts = await reclamation.aggregate([
+        { $group: { _id: '$typeR', count: { $sum: 1 } } },
+        { $sort: { count: -1 } }, // Trier par ordre décroissant
+        { $limit: 3 } // Limiter aux cinq premiers résultats
+      ]);
+  
+      // Obtenir les détails des types de réclamation
+      const typeDetails = await type.find({ _id: { $in: typeCounts.map(item => item._id) } });
+  
+      // Fusionner les compteurs et les détails des types
+      const topTypes = typeCounts.map(count => {
+        const typeDetail = typeDetails.find(type => type._id.equals(count._id));
+        return {
+          type: typeDetail,
+          NombredeReclamation: count.count
+        };
+      });
+  
+      return topTypes;
+    }catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message });
+    }
+  }
