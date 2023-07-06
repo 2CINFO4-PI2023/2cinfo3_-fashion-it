@@ -3,6 +3,7 @@ const app = express();
 const typePublicationRoutes = require('./routes/typePublicationRoutes');
 const publicationRoutes = require('./routes/publicationRoutes');
 const userRoutes = require('./routes/userRoutes');
+const notificationRouter = require('./routes/notificationRouter');
 require('./utils/db');
 
 // Middleware
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use('/type_publication', typePublicationRoutes);
 app.use('/publication', publicationRoutes);
 app.use('/user', userRoutes);
+app.use('/notifications', notificationRouter);
 
 // Start the server
 app.listen(3000, () => {

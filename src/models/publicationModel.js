@@ -12,8 +12,7 @@ const publicationSchema = new mongoose.Schema({
   type: {
     type: mongoose.Schema.Types.String,
     ref: 'TypePublication',
-    required : true 
-   
+    required: true
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -52,6 +51,7 @@ const publicationSchema = new mongoose.Schema({
     }
   ]
 });
+
 publicationSchema.virtual('typePublication', {
   ref: 'TypePublication',
   localField: 'type',
