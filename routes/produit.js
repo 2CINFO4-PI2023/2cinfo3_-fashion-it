@@ -13,7 +13,7 @@ router
 .get(getAll) // pour récupérer toutes les produits
 .post(
     multer, // Utiliser multer
-    addOnce); // pour ajouter un produit 
+    addOnce); // pour ajouter un produit
 
 
 router 
