@@ -22,6 +22,8 @@ const commandeRoutes = require('./routes/commnadeRouter');
 const notelivreurRoutes = require('./routes/notelivreurRouter');
 const produitRoutes = require('./routes/produitRouter');
 const categorieProduitRoutes = require('./routes/categorieProduitRouter');
+const eventRoutes = require('./routes/eventRoutes');
+const typeEventRoutes = require('./routes/typeEventRoutes');
 require('./utils/db');
 const app = express();
 const port = process.env.PORT;
@@ -76,6 +78,9 @@ app.use('/notelivreur', notelivreurRoutes);
 // produit
 app.use('/categorie' , categorieProduitRoutes);
 app.use('/produit' , produitRoutes);
+// event 
+app.use('/events', eventRoutes);
+    app.use('/type-events', typeEventRoutes);
 
 
 // Start the server
