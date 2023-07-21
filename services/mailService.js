@@ -25,7 +25,29 @@ async function sendCreationEmail(user) {
           <li><b>Password:</b> ${user.password}</li>
         </ul>
         <p>We hope you enjoy your experience with us!  🙌</p>
-        <p>Mohamed Ben Abdallah</p>
+        <p>FashionIT</p>
+      `,
+    });
+
+    console.log('Email sent: %s', info.messageId);
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+}
+async function sendPasswordEmail(email,username,password) {
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.GOOGLE_MAIL,
+      to: email,
+      subject: 'You have requested a password reset 🔐',
+      html: `
+        <h2>Hello, ${username} 😊 </h2>
+        <p>Here's your new password:</p>
+        <ul>
+          <li><b>Password: 🔓</b> ${password}</li>
+        </ul>
+        <p>Please email us if you did not do this action!! ❌</p>
+        <p>FashionIT 🙌</p>
       `,
     });
 
@@ -35,4 +57,7 @@ async function sendCreationEmail(user) {
   }
 }
 
-module.exports = sendCreationEmail;
+module.exports = {
+  sendCreationEmail,
+  sendPasswordEmail
+};

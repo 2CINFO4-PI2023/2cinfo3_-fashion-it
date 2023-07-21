@@ -1,28 +1,18 @@
 {
-  "name": "loginnode",
+  "name": "pi_produit",
   "version": "1.0.0",
-  "description": "Login Module ",
+  "description": " gestion de produit ",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BLENDERWENTWRONG/LoginModule.git"
-  },
-  "keywords": [
-    "Angular",
-    "Node",
-    "Google",
-    "Auth"
-  ],
-  "author": "",
+  "keywords": [],
+  "author": "Eya barhoumi",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BLENDERWENTWRONG/LoginModule/issues"
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   },
-  "homepage": "https://github.com/BLENDERWENTWRONG/LoginModule#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
@@ -39,9 +29,8 @@
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22"
+    "passport-local": "^1.0.0",
+    "multer": "^1.4.5-lts.1",
+    "stripe": "^12.11.0"
   }
 }

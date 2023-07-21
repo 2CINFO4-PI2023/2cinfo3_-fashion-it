@@ -32,6 +32,22 @@ const findUser = (req, res, next) => {
             });
         });
 };
+const findUserByUsername = (req, res, next) => {
+  let username = req.body.username; // Assuming the username is passed in the request body
+  user
+    .findOne({ username: username })
+    .then((response) => {
+      res.status(200).json({
+        response,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: `An error occurred ${error}`,
+      });
+    });
+};
+
 
 const addUser = (req, res, next) => {
     const roleName = req.body.rolename;
@@ -78,9 +94,10 @@ const addUser = (req, res, next) => {
   
 
 const editUser = (req, res, next) => {
-    let userId = req.body.userID;
+    let userId = req.body._id;
+    console.log(userId)
     let userData = {
-        username: req.body.name,
+        username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         adresse: req.body.adresse,
@@ -121,7 +138,7 @@ const deleteUser = (req, res, next) => {
 
 
 const activatePremium = (req, res) => {
-  const userID = req.body.userID;
+  const userID = req.body._id;
 
   user.findById(userID)
     .populate('role')
@@ -182,4 +199,5 @@ module.exports = {
     deleteUser,
     editUser,
     activatePremium,
+    findUserByUsername
 };

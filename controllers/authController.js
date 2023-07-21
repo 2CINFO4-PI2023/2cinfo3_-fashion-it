@@ -6,6 +6,7 @@ const Role = require("../models/role");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendCreationEmail  = require('../services/mailService');
+const sendPasswordEmail = require('../services/mailService').sendPasswordEmail;
 const secretKey = process.env.JWT_SECRET_KEY;
 const register = (req, res, next) => {
   const roleName = req.body.rolename;
@@ -86,7 +87,7 @@ const login = (req, res, next) => {
                   role: foundRole.rolename 
                 };
 
-                let token = jwt.sign(tokenPayload, secretKey, { expiresIn: '2h' });
+                let token = jwt.sign(tokenPayload, secretKey, { expiresIn: '365d' });
                 res.status(200).json({
                   message: 'Logged In OK',
                   token
@@ -112,10 +113,49 @@ const login = (req, res, next) => {
       }
     });
 };
+const changePasswordById = (req, res, next) => {
+  const userId = req.body._id;
+  const newPassword = generateRandomPassword(); 
+
+  bcrypt.hash(newPassword, 10, function (err, hashedPass) {
+    if (err) {
+      return res.status(500).json({
+        error: err,
+      });
+    }
+    user
+      .findByIdAndUpdate(userId, { password: hashedPass })
+      .then((updatedUser) => {
+        sendPasswordEmail(updatedUser.email,updatedUser.username, newPassword); 
+        res.status(200).json({
+          message: "Password changed successfully",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: `Error occurred ${error}`,
+        });
+      });
+  });
+};
+
+const generateRandomPassword = () => {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let password = "";
+  for (let i = 0; i < 8; i++) {
+    password += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return password;
+};
+
 
 
 
 module.exports = {
   register,
   login,
+  changePasswordById
 };
